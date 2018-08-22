@@ -13,8 +13,6 @@ class CharactersController extends Controller
      */
     public function indexAction()
     {
-        // dirty hack because symfony sucks and won't let you set cors in a config.
-        header("Access-Control-Allow-Origin: *");
 
         $response = [
             "data" => [
