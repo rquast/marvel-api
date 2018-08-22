@@ -23,7 +23,8 @@ class CharactersController extends Controller
                     "type" => "character",
                     "attributes" => [
                         "name" => "One",
-                        "description" => "Description One"
+                        "description" => "Description One",
+                        "modified" => date("c", time())
                     ]
                 ],
                 [
@@ -31,7 +32,8 @@ class CharactersController extends Controller
                     "type" => "character",
                     "attributes" => [
                         "name" => "Two",
-                        "description" => "Description Two"
+                        "description" => "Description Two",
+                        "modified" => date("c", time())
                     ]
                 ],
                 [
@@ -39,7 +41,8 @@ class CharactersController extends Controller
                     "type" => "character",
                     "attributes" => [
                         "name" => "Three",
-                        "description" => "Description Three"
+                        "description" => "Description Three",
+                        "modified" => date("c", time())
                     ]
                 ],
                 [
@@ -47,7 +50,8 @@ class CharactersController extends Controller
                     "type" => "character",
                     "attributes" => [
                         "name" => "Four",
-                        "description" => "Description Four"
+                        "description" => "Description Four",
+                        "modified" => date("c", time())
                     ]
                 ]
             ]
