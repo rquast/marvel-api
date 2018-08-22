@@ -21,26 +21,34 @@ class CharactersController extends Controller
                 [
                     "id" => 1234,
                     "type" => "character",
-                    "name" => "One",
-                    "description" => "Description One"
+                    "attributes" => [
+                        "name" => "One",
+                        "description" => "Description One"
+                    ]
                 ],
                 [
                     "id" => 1235,
                     "type" => "character",
-                    "name" => "Two",
-                    "description" => "Description Two"
+                    "attributes" => [
+                        "name" => "Two",
+                        "description" => "Description Two"
+                    ]
                 ],
                 [
                     "id" => 1236,
                     "type" => "character",
-                    "name" => "Three",
-                    "description" => "Description Three"
+                    "attributes" => [
+                        "name" => "Three",
+                        "description" => "Description Three"
+                    ]
                 ],
                 [
                     "id" => 1237,
                     "type" => "character",
-                    "name" => "Four",
-                    "description" => "Description Four"
+                    "attributes" => [
+                        "name" => "Four",
+                        "description" => "Description Four"
+                    ]
                 ]
             ]
         ];
