@@ -34,6 +34,11 @@ services:
     #     arguments:
     #         $someArgument: 'some_value'
 
+    # CUSTOM: Inject container into services
+    AppBundle\Service\:
+        resource: '../../src/AppBundle/Service/*'
+        calls:
+        - [ setContainer, [ '@service_container' ] ]
 
     # CUSTOM: SET CORS HEADER
     # <service id="uq.api.uq_api_listener" class="UQ\ApiBundle\Listener\UQApiListener">
