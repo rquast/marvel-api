@@ -57,7 +57,31 @@ class MarvelApiService extends BaseService {
      */
     public function formatPayloadAsJsonApi($results)
     {
-        return [];
+
+        $arr = [
+            "data" => []
+        ];
+
+        /**
+         * @var Characters $row
+         */
+        foreach ($results as $row) {
+            $item = [
+                "id" => $row->getId(),
+                "type" => "character",
+                "attributes" => [
+                    "name" => $row->getName(),
+                    "description" => $row->getDescription(),
+                    "thumbnail" => $row->getThumbnail(),
+                    "resource-uri" => $row->getResourceUri(),
+                    "modified" => $row->getModified()
+                ]
+            ];
+            $arr['data'][] = $item;
+        }
+
+        return $arr;
+
     }
 
     /**
