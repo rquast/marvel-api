@@ -4,6 +4,8 @@ namespace AppBundle\Service;
 
 
 use AppBundle\Entity\Characters;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\OptimisticLockException;
 
 class MarvelApiService extends BaseService {
 
@@ -31,8 +33,13 @@ class MarvelApiService extends BaseService {
             $payload = $this->fetchData();
             if ($payload['code'] === 200) {
                 // Save data returned form marvel api
-                $this->persistData($payload['data']['results']);
-                $results = $characterRepository->findAll();
+                try {
+                    $this->persistData($em, $payload['data']['results']);
+                    $results = $characterRepository->findAll();
+                } catch (OptimisticLockException $olex) {
+                    $logger = $this->container->get('logger');
+                    $logger->error($olex->getMessage());
+                }
             }
         }
 
@@ -54,15 +61,25 @@ class MarvelApiService extends BaseService {
     }
 
     /**
-     * Persists retrieved marvel character data
-     *
+     * @param EntityManager $em
      * @param array $payload
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function persistData(array $payload)
+    public function persistData(EntityManager $em, array $payload)
     {
-        foreach ($payload as $key => $value) {
-            // echo $key . " - " . json_encode($value) . "\n";
+        foreach ($payload as $row) {
+            // Note: had to use "Characters" because "Character" is a reserved word in symfony.
+            $character = new Characters();
+            $character->setName($row['name']);
+            $character->setDescription($row['description']);
+            $character->setResourceUri($row['resourceURI']);
+            $character->setThumbnail($row['thumbnail']['path'] . "." . $row['thumbnail']['extension']);
+            $dt = new \DateTime($row['modified']);
+            $character->setModified($dt);
+            $em->persist($character);
         }
+
+        $em->flush();
     }
 
     /**
@@ -76,7 +93,7 @@ class MarvelApiService extends BaseService {
         $hash = md5($TS . MarvelApiService::PRIVATE_KEY . MarvelApiService::PUBLIC_KEY);
 
         // Note: for demo purposes, just basic fetching with file_get_contents instead of using guzzle http.
-        return json_decode(file_get_contents(MarvelApiService::API_URL . "/characters?limit=10&offset=20&ts=" . $TS . "&apikey=" . MarvelApiService::PUBLIC_KEY . "&hash=" . $hash), true);
+        return json_decode(file_get_contents(MarvelApiService::API_URL . "/characters?ts=" . $TS . "&apikey=" . MarvelApiService::PUBLIC_KEY . "&hash=" . $hash), true);
     }
 
 }
