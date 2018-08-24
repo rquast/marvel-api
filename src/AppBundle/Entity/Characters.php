@@ -50,6 +50,13 @@ class Characters
     private $resourceUri;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="favourite", type="boolean")
+     */
+    private $favourite;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="modified", type="datetime")
@@ -186,5 +193,36 @@ class Characters
     {
         return $this->modified;
     }
+
+    /**
+     * Is Favourite
+     *
+     * @return bool
+     */
+    public function isFavourite()
+    {
+        return $this->favourite;
+    }
+
+    /**
+     * Get Favourite
+     *
+     * @return bool
+     */
+    public function getFavourite()
+    {
+        return $this->favourite;
+    }
+
+    /**
+     * Set Favourite
+     *
+     * @param bool $favourite
+     */
+    public function setFavourite($favourite)
+    {
+        $this->favourite = $favourite;
+    }
+
 }
 

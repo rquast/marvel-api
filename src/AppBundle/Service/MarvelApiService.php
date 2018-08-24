@@ -74,6 +74,7 @@ class MarvelApiService extends BaseService {
                     "description" => $row->getDescription(),
                     "thumbnail" => $row->getThumbnail(),
                     "resource-uri" => $row->getResourceUri(),
+                    "favourite" => $row->isFavourite(),
                     "modified" => $row->getModified()
                 ]
             ];
@@ -98,6 +99,7 @@ class MarvelApiService extends BaseService {
             $character->setDescription($row['description']);
             $character->setResourceUri($row['resourceURI']);
             $character->setThumbnail($row['thumbnail']['path'] . "." . $row['thumbnail']['extension']);
+            $character->setFavourite(false);
             $dt = new \DateTime($row['modified']);
             $character->setModified($dt);
             $em->persist($character);
