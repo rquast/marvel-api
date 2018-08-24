@@ -9,10 +9,6 @@ use Doctrine\ORM\OptimisticLockException;
 
 class MarvelApiService extends BaseService {
 
-    const API_URL = "https://gateway.marvel.com/v1/public";
-    const PUBLIC_KEY = "343972d2b5514521c8be01925d288091";
-    const PRIVATE_KEY = "8746ec7a2e9557820c3b37db3098a71b57134bb3";
-
     /**
      * Performs a marvel api query first on cached data
      * then falling back to remote fetching from the marvel api
@@ -115,11 +111,15 @@ class MarvelApiService extends BaseService {
      */
     public function fetchData()
     {
+        $API_URL = $this->container->getParameter('marvel_api_base_url');
+        $PUBLIC_KEY = $this->container->getParameter('marvel_api_public_key');
+        $PRIVATE_KEY = $this->container->getParameter('marvel_api_private_key');
+
         $TS = time();
-        $hash = md5($TS . MarvelApiService::PRIVATE_KEY . MarvelApiService::PUBLIC_KEY);
+        $hash = md5($TS . $PRIVATE_KEY . $PUBLIC_KEY);
 
         // Note: for demo purposes, just basic fetching with file_get_contents instead of using guzzle http.
-        return json_decode(file_get_contents(MarvelApiService::API_URL . "/characters?ts=" . $TS . "&apikey=" . MarvelApiService::PUBLIC_KEY . "&hash=" . $hash), true);
+        return json_decode(file_get_contents($API_URL . "/characters?ts=" . $TS . "&apikey=" . $PUBLIC_KEY . "&hash=" . $hash), true);
     }
 
 }
