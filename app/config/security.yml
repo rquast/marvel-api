@@ -36,9 +36,11 @@ security:
         #        success_handler:          lexik_jwt_authentication.handler.authentication_success
         #        failure_handler:          lexik_jwt_authentication.handler.authentication_failure
 
+        # allow options
         api:
+            methods: [GET, POST, PATCH, DELETE]
             provider: jwt
-            pattern:   ^/apix
+            pattern:   ^/api
             stateless: true
             guard:
                 authenticators:
