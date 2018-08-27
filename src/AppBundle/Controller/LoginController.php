@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Security\User;
+use Symfony\Component\HttpFoundation\Response;
 
 
 class LoginController extends Controller
@@ -22,7 +23,7 @@ class LoginController extends Controller
 
     /**
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return \Symfony\Component\HttpFoundation\JsonResponse|Response
      *
      * @Route("/login/do", name="login-do")
      * @Method("POST")
@@ -30,12 +31,23 @@ class LoginController extends Controller
     public function loginAction(Request $request)
     {
 
-        // TODO: "validate" the username / password
-        // $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true);
 
-        $jwtManager = $this->container->get('lexik_jwt_authentication.jwt_manager');
-        $user = new User('uqrquast', ['ROLE_USER'], 'r.quast@uq.edu.au');
-        return $this->json(['token' => $jwtManager->create($user)]);
+        if (isset($data['username']) && isset($data['password'])) {
+            // "Validating" the username and password :)
+            if ($data['username'] === 'uqrquast' && $data['password'] === 'password') {
+                $jwtManager = $this->container->get('lexik_jwt_authentication.jwt_manager');
+                $user = new User('uqrquast', ['ROLE_USER'], 'r.quast@uq.edu.au');
+                return $this->json(['token' => $jwtManager->create($user)]);
+            }
+        }
+
+        $array = array('success' => false);
+        $response = new Response(json_encode($array), 401);
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+
     }
 
 }
