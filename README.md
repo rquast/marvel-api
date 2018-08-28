@@ -1,4 +1,4 @@
-Marvel API Sandbox
+Marvel API Testing
 ==================
 
 **WARNING**: This distribution does not support Symfony 4. See the
