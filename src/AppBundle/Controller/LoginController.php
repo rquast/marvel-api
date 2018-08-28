@@ -18,7 +18,7 @@ class LoginController extends Controller
      */
     public function indexAction()
     {
-        return $this->json([]);
+        return $this->json(['TODO: implement a web login form to generate a token.']);
     }
 
     /**

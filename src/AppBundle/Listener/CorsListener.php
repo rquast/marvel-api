@@ -8,6 +8,12 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 class CorsListener
 {
+
+    /**
+     * Intercepts OPTIONS headers and sends empty response
+     *
+     * @param GetResponseEvent $event
+     */
     public function onKernelRequest(GetResponseEvent $event)
     {
         // Don't do anything if it's not the master request.
@@ -22,7 +28,11 @@ class CorsListener
         }
     }
 
-
+    /**
+     * Intercepts response and sends CORS headers
+     *
+     * @param FilterResponseEvent $event
+     */
     public function onKernelResponse(FilterResponseEvent $event)
     {
 
